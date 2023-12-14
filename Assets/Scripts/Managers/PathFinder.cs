@@ -11,7 +11,6 @@ namespace Managers
         public static Vector2Int RandomDirection()
         {
             int nextDirRand = Random.Range(1, 5);
-            //Debug.Log(nextDirRand);
             Vector2Int direction = nextDirRand switch
             {
                 1 => Vector2Int.down,

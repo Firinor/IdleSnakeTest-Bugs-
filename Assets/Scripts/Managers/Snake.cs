@@ -89,35 +89,37 @@ namespace Managers
 
         public void MoveToTarget(Vector2 target)
         {
-            //int  
-
-
             if (Segments.Count > 0)
             {
-                for (int i = Segments.Count - 1; i >= 0; --i)
+                for (int i = Segments.Count - 1; i >= 0; i--)
                 {
-                    Transform nextSegment = (i == 0) ? _head : Segments[i - 1].segmentTransform;
-                    Segments[i].segmentTransform.position = nextSegment.position;
+                    Transform nextToHeadSegment = (i == 0) ? _head : Segments[i-1].segmentTransform;
+                    Segments[i].segmentTransform.position = nextToHeadSegment.position;
                 }
             }
-
-            var position = _head.position;
-            Vector2 tg = target - (Vector2) position;
+            var headPosition = _head.position;
+            Vector2 directionOfView = target - (Vector2)headPosition;
             _head.position = target;
-            UpdateSnakeSprites(target + tg);
+            UpdateSnakeSprites(target + directionOfView);
         }
 
         public void UpdateSnakeSprites(Vector2 target)
         {
-            _head.LookAt2D(target);
+            if (Segments.Count > 0)
+            {
+                Vector2 directionOfView = _head.position - Segments[0].segmentTransform.position;
+                _head.LookAt2D((Vector2)_head.position + directionOfView);
+            }
+            else {
+                _head.LookAt2D(target);
+            }
+
             for (int i = 0; i < Segments.Count; i++)
             {
                 Transform nextSegment = (i == 0) ? _head : Segments[i - 1].segmentTransform;
                 Transform prevSegment = (i == Segments.Count - 1) ? null : Segments[i + 1].segmentTransform;
                 var position = nextSegment.position;
-                //Vector2 direction = (position - Segments[i].segmentTransform.position).normalized;
                 Segments[i].segmentTransform.LookAt2D(position);
-                Segments[i].segmentTransform.gameObject.name = "Segment" + (i + 1);
                 if (prevSegment != null)
                 {
                     Vector2 offset = nextSegment.position - prevSegment.position;
@@ -135,11 +137,11 @@ namespace Managers
             }
         }
 
-     
-
         public void AddSegment()
         {
             GameObject obj = Instantiate(_segmentPrefab);
+
+            obj.name = "Segment" + (Segments.Count+1);
 
             Segment segment = new Segment
             {
