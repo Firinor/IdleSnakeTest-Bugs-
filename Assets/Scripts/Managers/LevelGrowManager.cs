@@ -97,7 +97,7 @@ namespace Managers
 
             UpgradesManager.AllCoins += fruit;
             UIManager.Instance.UpdateCoinValue();
-            Debug.Log($"Current Level {currentLevel}: {currentLevelState}/{nextGrow}");
+            //Debug.Log($"Current Level {currentLevel}: {currentLevelState}/{nextGrow}");
         }
 
         private static void CheckGrowSnake()

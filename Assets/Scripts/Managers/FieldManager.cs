@@ -191,7 +191,7 @@ namespace Managers
             {
                 Destroy(foundApple.appleObject);
                 _appleList.Remove(foundApple);
-                Debug.Log($"Removed apple! Apple list count :{_appleList.Count}");
+                //Debug.Log($"Removed apple! Apple list count :{_appleList.Count}");
                 UIManager.Instance.UpdateFoodValue($"{_appleList.Count}/{Mathf.Floor(_appleMax - 1)}");
                 LevelGrowManager.EatApple(
                     (int)((foundApple.point * LevelGrowManager.baseGrowForFood +
@@ -254,7 +254,6 @@ namespace Managers
         {
             _fieldSize = newSize;
             _mainCamera.orthographicSize = 3.3f + (_fieldSize - 6) * 0.5f;
-            //_mainCamera.transform.position = new Vector3(0, -1 - (_fieldSize - 6) * 0.15f, -10);
             _mainCamera.transform.position = new Vector3(0, -(float)_fieldSize / 2 * _cellSize, -10);
             _appleMax = newSize * newSize * percentMaxFood;
             Debug.Log("apple max " + _appleMax);
@@ -267,8 +266,6 @@ namespace Managers
                 apple.appleObject.transform.position =
                     (Vector2)_cellList[apple.appleId.x][apple.appleId.y].cellObject.transform.position;
             }
-
-            //Snake.Instance.Head.position = _cellList[_cellSnake[0].x][_cellSnake[0].y].cellObject.transform.position;
 
             for (int i = 1; i < _cellSnake.Count; i++)
             {
